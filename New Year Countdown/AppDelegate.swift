@@ -16,6 +16,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+
+        if let settings = UIApplication.shared.currentUserNotificationSettings
+        {
+            if settings.types.contains([.alert, .sound])
+            {
+                //Have alert and sound permissions
+                print("Alert and sound permissions are enabled")
+            }
+            else if settings.types.contains(.alert)
+            {
+                //Have alert permission
+                print("Alert permissions are enabled")
+            }
+            else {
+                self.window = UIWindow(frame: UIScreen.main.bounds)
+                
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                
+                let initialViewController = storyboard.instantiateViewController(withIdentifier: "notificationView")
+                
+                self.window?.rootViewController = initialViewController
+                self.window?.makeKeyAndVisible()
+            }
+        }
         return true
     }
 
